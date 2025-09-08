@@ -1,0 +1,36 @@
+def SearchingChallenge(strArr):
+    rows = len(strArr)
+    cols = len(strArr[0])
+    visited = [[False for _ in range(cols)] for _ in range(rows)]
+
+    def dfs(r, c):
+        if r < 0 or r >= rows or c < 0 or c >= cols:
+            return
+        if strArr[r][c] != '0' or visited[r][c]:
+            return
+        visited[r][c] = True
+        # Explore all 4 directions
+        dfs(r+1, c)
+        dfs(r-1, c)
+        dfs(r, c+1)
+        dfs(r, c-1)
+
+    holes = 0
+    for r in range(rows):
+        for c in range(cols):
+            if strArr[r][c] == '0' and not visited[r][c]:
+                dfs(r, c)
+                holes += 1
+
+    return holes
+
+matrix = ["10111", "10101", "11101", "11111"]
+print("Number of holes:", SearchingChallenge(matrix))  # Output: 2
+
+# Example test case
+matrix = [
+    "01111",
+    "01101", 
+    "00011", 
+    "11110"]
+print("Number of holes:", SearchingChallenge(matrix))  # Output: 3
